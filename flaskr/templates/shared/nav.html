@@ -1,0 +1,26 @@
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <img height=50 class="me-4" src="{{url_for('static', filename='images/logo.png')}}"/>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a id="start" class="nav-link active text-success fs-5" aria-current="page" href="#" data-bs-toggle="tooltip" data-bs-placement="left"><i class="bi bi-play-circle-fill"></i></a>
+          </li>
+          <li class="nav-item">
+            <a id="stop" class="nav-link active text-danger fs-5" aria-current="page" href="#"><i class="bi bi-stop-circle-fill"></i></a>
+          </li>
+          <li class="nav-item">
+            <a id="restart" class="nav-link active text-primary fs-5" aria-current="page" href="#"><i class="bi bi-arrow-clockwise"></i></a>
+          </li>
+          <li class="nav-item">
+            <a id="download" class="nav-link active text-info fs-5" aria-current="page" href="#"><i class="bi bi-save-fill"></i></a>
+          </li>
+        </ul>
+      </div>
+      <h5><span class="text-info">Status:</span> <span id="status">Inactive</span></h5>
+    </div>
+  </nav>

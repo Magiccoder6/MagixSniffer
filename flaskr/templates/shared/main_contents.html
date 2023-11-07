@@ -1,0 +1,38 @@
+
+<div class="p-3 row bg-info-subtle">
+  <label for="inputPassword" class="col-sm-2 col-form-label"><b>Interfaces</b></label>
+  <div class="col-sm-10" id="inf_container">
+   <!--Data is loaded here dynamically-->
+  </div>
+</div>
+
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1"><i class="bi bi-funnel-fill"></i></span>
+  <input type="text" class="form-control" placeholder="Filter ex(TCP)" id="filter">
+</div>
+
+  <div class="m-3">
+    <div class="col">
+      <div class="row mt-1" style="position:relative; max-height: 40vh; height: 40vh; overflow-y: auto">
+        <table class="table table-sm table-hover" >
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Time</th>
+              <th scope="col">Source</th>
+              <th scope="col">Destination</th>
+              <th scope="col">Protocol</th>
+              <th scope="col">Length</th>
+              <th scope="col">Info</th>
+            </tr>
+          </thead>
+          <tbody id="table" style="cursor:pointer">
+            <!--Will be loaded dynamically-->
+          </tbody>
+        </table>
+      </div>
+      <div class="row border mt-1" id="content_view">
+        Data View...
+      </div>
+    </div>
+  </div>
