@@ -1,10 +1,12 @@
+import logging
 import threading
 from flask import Flask, Response, jsonify, render_template, request
-from scapy.all import sniff, Packet
-from helpers.helper import get_windows_network_interfaces, packet_to_json
-import json, time
+from scapy.all import sniff
+from helpers.helper import get_windows_network_interfaces, process_packet
 
 app = Flask(__name__)
+app.logger.setLevel(logging.INFO)
+app.logger.addHandler(logging.FileHandler('error.log'))
 
 sniffing = False
 interfaces = []
@@ -16,7 +18,7 @@ def dashboard():
 
 @app.route("/get_interfaces")
 def get_interfaces():
-    return jsonify(get_windows_network_interfaces())
+    return jsonify(get_windows_network_interfaces(app=app))
 
 #return a stream of packets
 @app.route('/stream_packets')
@@ -39,7 +41,7 @@ def start_sniffing(iface):
     sniffing = True
     global packets
     packets = [] 
-    sniff(prn=process_packet, iface=iface, stop_filter=lambda x: not sniffing or len(x)>20000)
+    sniff(prn=lambda packet: process_packet(packet=packet, packets=packets, app=app), iface=iface, stop_filter=lambda x: not sniffing or len(x)>20000)
 
 @app.route('/start_sniffing', methods=['POST'])
 def start():
@@ -56,13 +58,7 @@ def stop_loop():
     global sniffing
     sniffing = False
     return "Sniff stopped."
-
-def process_packet(packet: Packet):
-    packet_data = packet_to_json(packet, packets=packets)
     
-    if(packet_data is not None):
-        packets.append(json.dumps(packet_data.to_json()))
-        time.sleep(1)
 
 if __name__ == "__main__":
     app.run(debug=True)

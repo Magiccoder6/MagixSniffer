@@ -2,25 +2,32 @@ import json
 import unittest
 from unittest.mock import patch
 from main import app
-from helpers.helper import get_windows_network_interfaces, packet_to_json
+from helpers.helper import get_windows_network_interfaces, packet_to_json, process_packet
 from scapy.layers.inet import IP, TCP
 
 
 class UnitTest(unittest.TestCase):
     def test_get_interfaces(self):
-        interfaces = get_windows_network_interfaces()
+        interfaces = get_windows_network_interfaces(app=app)
         self.assertTrue(isinstance(interfaces, list))
 
     def test_packet_to_json(self):
         ip_packet = IP(dst="192.168.1.1", src="192.168.1.2")
         tcp_packet = TCP(sport=12345, dport=80)
         combined = ip_packet / tcp_packet
-        data = packet_to_json(packet=combined, packets=[])
+        data = packet_to_json(packet=combined, app=app)
         self.assertEqual("192.168.1.1", data.destination_ip)
         self.assertEqual("192.168.1.2", data.source_ip)
         self.assertEqual(12345, data.source_port)
         self.assertEqual(80, data.destination_port)
 
+    def test_process_packet(self):
+        packets = []
+        ip_packet = IP(dst="192.168.1.1", src="192.168.1.2")
+        tcp_packet = TCP(sport=12345, dport=8080)
+        packet = ip_packet / tcp_packet
+        process_packet(packet=packet, packets=packets, app=app)
+        self.assertEqual(1, len(packets))
 
 class IntegrationTest(unittest.TestCase):
     def setUp(self):
