@@ -14,13 +14,6 @@ packets = []
 def dashboard():
     return render_template("index.html")
 
-@app.route("/set_target_interface", methods=["POST"])
-def set_target_interface():
-    data = request.form.getlist('checkbox')
-    print(data)
-    return Response(status=200)
-
-
 @app.route("/get_interfaces")
 def get_interfaces():
     return jsonify(get_windows_network_interfaces())
